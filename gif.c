@@ -1,6 +1,5 @@
 #include "gif.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -321,6 +320,9 @@ void read_contents(GIF* gif, FILE* file) {
 GIF* GIF_Load(FILE* file) {
 	char head[6];
 	fread(head, 1, 6, file);
+	if (memcmp(head, "GIF89a") == 0 || memcmp(head, "GIF87a") == 0) {
+		return NULL;
+	}
 
 	GIF* gif = (GIF*)malloc(sizeof(GIF));
 	gif->graphic_count = 0;
