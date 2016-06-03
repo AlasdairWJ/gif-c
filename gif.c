@@ -105,6 +105,7 @@ void read_image_data(int lzw_code_size, const byte* compressed, int compressed_l
 			}
 
 			if (code == end_of_information) {
+				free(dictionary);
 				return;
 			}
 
