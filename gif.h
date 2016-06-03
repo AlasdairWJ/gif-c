@@ -2,11 +2,10 @@
 #define _GIF_H
 
 #include <stdbool.h>
-#include <stdio.h>
 
 #define DISPOSE_UNDEFINED 0
 #define DISPOSE_NONE      1
-#define DISPOSE_CLR       2
+#define DISPOSE_CLEAR     2
 #define DISPOSE_RESTORE   3
 
 #define GRAPHIC_IMAGE         0x2C
@@ -106,7 +105,7 @@ typedef struct {
 	Extension* extensions;
 } GIF;
 
-GIF* GIF_Load(FILE*);
+GIF* GIF_Load(const char*);
 void GIF_Free(GIF*);
 
 #endif

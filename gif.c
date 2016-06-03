@@ -1,5 +1,6 @@
 #include "gif.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -311,16 +312,17 @@ void read_contents(GIF* gif, FILE* file) {
 			return;
 
 		default:
-			printf("invalid header [%x]\n", block_code);
+			printf("invalid block code [%x]\n", block_code);
 			return;
 		}
 	}
 }
 
-GIF* GIF_Load(FILE* file) {
+GIF* read_gif(FILE* file) {
 	char head[6];
 	fread(head, 1, 6, file);
-	if (memcmp(head, "GIF89a") == 0 || memcmp(head, "GIF87a") == 0) {
+	if (memcmp(head, "GIF89a", 6) != 0 && memcmp(head, "GIF87a", 6) != 0) {
+		printf("Invalid header\n");
 		return NULL;
 	}
 
@@ -333,6 +335,13 @@ GIF* GIF_Load(FILE* file) {
 	read_logical_screen_descriptor(gif, file);
 	read_contents(gif, file);
 
+	return gif;
+}
+
+GIF* GIF_Load(const char* filename) {
+	FILE* file = fopen(filename, "rb");
+	GIF* gif = read_gif(file);
+	fclose(file);
 	return gif;
 }
 
